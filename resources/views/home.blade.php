@@ -14,13 +14,13 @@
                     @endif
 
                     @can('isAdmin')
-                    <div class="btn btn-success btn-lg">
-                        You have Admin Access
-                    </div>
+                    <a href="bookings/index" class="btn btn-primary btn-lg">
+                        Bookings
+                    </a>
                     @elsecan('isCustomer')
-                    <div class="btn btn-primary btn-lg">
-                        You have Customer Access
-                    </div>
+                    <a href="bookings/show" class="btn btn-primary btn-lg">
+                        Bookings
+                    </a>
                     @endcan
                 </div>
             </div>

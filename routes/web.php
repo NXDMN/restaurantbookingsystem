@@ -28,16 +28,23 @@ Route::post('/register', [RegisterController::class,'createCustomer']);
 
 Route::group(['middleware' => ['auth', 'role:customer']], function () {
     Route::view('/customer', 'customer');
+    Route::get('/bookings/show', [BookingController::class, 'show']);
+    Route::view('/bookings/create', 'booking.create');
+    Route::get('/bookings/edit/{id}', [BookingController::class, 'showEdit']);
 });
+
+Route::post('/bookings/create', [BookingController::class, 'create'])->middleware('can:isCustomer');
+Route::post('/bookings/edit', [BookingController::class, 'edit'])->middleware('can:isCustomer');
+Route::delete('/bookings/{booking}', [BookingController::class, 'destroy'])->middleware('can:isCustomer');
 
 Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::view('/admin', 'admin');
+    Route::get('/bookings/index', [BookingController::class, 'index']);
 });
+
+Route::put('/bookings/updateStatus/{id}', [BookingController::class, 'updateStatus'])->middleware('can:isAdmin');
 
 Route::get('logout', [LoginController::class,'logout']);
 
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/bookings/create', [BookingController::class, 'create']);
-Route::get('/bookings/edit', [BookingController::class, 'edit']);
-Route::get('/bookings/delete', [BookingController::class, 'delete']);

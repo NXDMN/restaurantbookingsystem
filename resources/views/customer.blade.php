@@ -15,6 +15,7 @@
                                 <th scope="col">Time</th>
                                 <th scope="col">Contact No.</th>
                                 <th scope="col">Status</th>
+                                <th scope="col">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -24,6 +25,7 @@
                                 <td>Otto</td>
                                 <td>@mdo</td>
                                 <td>@mdo</td>
+                                <td>@mdo</td>
                             </tr>
                             <tr>
                                 <th scope="row">2</th>
@@ -31,12 +33,14 @@
                                 <td>Thornton</td>
                                 <td>@fat</td>
                                 <td>@fat</td>
+                                <td>@mdo</td>
                             </tr>
                             <tr>
                                 <th scope="row">3</th>
                                 <td colspan="2">Larry the Bird</td>
                                 <td>@twitter</td>
                                 <td>@twitter</td>
+                                <td>@mdo</td>
                             </tr>
                         </tbody>
                     </table>

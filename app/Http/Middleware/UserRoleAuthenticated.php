@@ -21,7 +21,7 @@ class UserRoleAuthenticated
         {
             $user = Auth::user();
 
-            if ( $user->role == $role ) {
+            if ($user->role == $role) {
                 return $next($request);
             }
         }
