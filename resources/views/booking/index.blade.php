@@ -14,6 +14,7 @@
                                 <th scope="col">Date</th>
                                 <th scope="col">Time</th>
                                 <th scope="col">Contact No.</th>
+                                <th scope="col">No. of person</th>
                                 <th scope="col">Status</th>
                             </tr>
                         </thead>
@@ -25,6 +26,7 @@
                                     <td>{{$booking['booking_date']}}</td>
                                     <td>{{date('h:i A', strtotime($booking['booking_time']))}}</td>
                                     <td>{{$booking['contact_no']}}</td>
+                                    <td>{{$booking['no_of_person']}}</td>
                                     <td>
                                         <div class="dropdown">
                                             <button class="btn {{$booking['isConfirmed'] ? 'btn-success' : 'btn-warning'}} btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">

@@ -27,14 +27,16 @@ class BookingController extends Controller
     public function create(Request $req){
         $req->validate([
             'booking_date' => 'required | date | after:today',
-            'booking_time' => 'required',
+            'booking_time' => 'required | before_or_equal:22:00 | after_or_equal:08:00',
             'contact_no' => ['required', 'regex:/^.*(?=.*\d{3}-\d{7,8}).*$/'],
+            'no_of_person' => 'required | integer | between:1,8',
         ]);
         $booking = new Booking;
         $booking->user_id = Auth::id();
         $booking->booking_date = $req->booking_date;
         $booking->booking_time = $req->booking_time;
         $booking->contact_no = $req->contact_no;
+        $booking->no_of_person = $req->no_of_person;
         $booking->isConfirmed = false;
         $booking->save();
 
@@ -47,10 +49,17 @@ class BookingController extends Controller
     }
 
     public function edit(Request $req){
+        $req->validate([
+            'booking_date' => 'required | date | after:today',
+            'booking_time' => 'required | before_or_equal:22:00 | after_or_equal:08:00',
+            'contact_no' => ['required', 'regex:/^.*(?=.*\d{3}-\d{7,8}).*$/'],
+            'no_of_person' => 'required | integer | between:1,8',
+        ]);
         $booking = Booking::find($req->id);
         $booking->booking_date = $req->booking_date;
         $booking->booking_time = $req->booking_time;
         $booking->contact_no = $req->contact_no;
+        $booking->no_of_person = $req->no_of_person;
         $booking->isConfirmed = false;
         $booking->save();
 

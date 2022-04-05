@@ -19,6 +19,7 @@ class CreateBookingsTable extends Migration
             $table->date('booking_date');
             $table->time('booking_time');
             $table->string('contact_no');
+            $table->integer('no_of_person');
             $table->boolean('isConfirmed')->default(false);
             $table->timestamps();
         });

@@ -56,6 +56,21 @@
                             @enderror
                         </div>
 
+                        <div class="mb-3">
+                            <label for="no_of_person" class="form-label">Number of Person</label>
+                            <input
+                            type="tel" 
+                            class="form-control @error('no_of_person') is-invalid @enderror" 
+                            id="no_of_person"
+                            name="no_of_person"
+                            value="{{$booking['no_of_person']}}">
+                            @error('no_of_person')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{$message}}</strong>
+                            </span>
+                            @enderror
+                        </div>
+
                         <button type="submit" class="btn btn-primary mb-3">Update</button>
                     </form>
                 </div>

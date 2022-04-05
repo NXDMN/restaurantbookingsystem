@@ -46,5 +46,5 @@ Route::put('/bookings/updateStatus/{id}', [BookingController::class, 'updateStat
 
 Route::get('logout', [LoginController::class,'logout']);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
