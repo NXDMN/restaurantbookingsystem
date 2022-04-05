@@ -57,7 +57,8 @@ class LoginController extends Controller
             return redirect()->intended('/admin');
         }
 
-        return back()->withInput($request->only('email', 'remember'));
+        return back()->withInput($request->only('email', 'remember'))->withErrors(
+            ['email' => 'Login failed']);
     }
 
     public function login(Request $request)
@@ -73,6 +74,7 @@ class LoginController extends Controller
             return redirect()->intended('/customer');
         }
 
-        return back()->withInput($request->only('email', 'remember'));
+        return back()->withInput($request->only('email', 'remember'))->withErrors(
+            ['email' => 'Login failed']);
     }
 }
