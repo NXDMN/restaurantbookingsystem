@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\BookingtableController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,9 +41,18 @@ Route::delete('/bookings/{booking}', [BookingController::class, 'destroy'])->mid
 Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::view('/admin', 'admin');
     Route::get('/bookings/index', [BookingController::class, 'index']);
+    Route::get('/bookingtables/index', [BookingtableController::class, 'index']);
+    Route::get('/bookingtables/create/{id}', function($id){
+        return view('bookingtable.create', ['booking_id' => $id]);
+    });
+    Route::get('/bookingtables/edit/{id}', [BookingtableController::class, 'showEdit']);
+
 });
 
 Route::put('/bookings/updateStatus/{id}', [BookingController::class, 'updateStatus'])->middleware('can:isAdmin');
+Route::post('/bookingtables/create', [BookingtableController::class, 'create'])->middleware('can:isAdmin');
+Route::post('/bookingtables/edit', [BookingtableController::class, 'edit'])->middleware('can:isAdmin');
+Route::delete('/bookingtables/{bookingtable}', [BookingtableController::class, 'destroy'])->middleware('can:isAdmin');
 
 Route::get('logout', [LoginController::class,'logout']);
 

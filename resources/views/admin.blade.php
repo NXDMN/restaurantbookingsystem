@@ -10,6 +10,9 @@
                     <a href="bookings/index" class="btn btn-primary btn-lg">
                         Bookings
                     </a>
+                    <a href="bookingtables/index" class="btn btn-primary btn-lg">
+                        Booking Tables
+                    </a>
                 </div>
             </div>
         </div>

@@ -13,10 +13,10 @@ class CreateTablesTable extends Migration
      */
     public function up()
     {
-        Schema::create('tables', function (Blueprint $table) {
+        Schema::create('bookingtables', function (Blueprint $table) {
             $table->id();
             $table->foreignId('booking_id');
-            $table->string('number');
+            $table->string('table_number');
             $table->integer('seats');
             $table->timestamps();
         });

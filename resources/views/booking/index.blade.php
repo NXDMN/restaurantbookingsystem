@@ -16,6 +16,7 @@
                                 <th scope="col">Contact No.</th>
                                 <th scope="col">No. of person</th>
                                 <th scope="col">Status</th>
+                                <th scope="col">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -51,7 +52,11 @@
                                                 </li>
                                             </ul>
                                         </div>
-                                        
+                                    </td>
+                                    <td>
+                                        <div class="btn-group" role="group" aria-label="actions">
+                                            <a class="btn btn-primary btn-sm" href="/bookingtables/create/{{$booking['id']}}" role="button">Add Table</a>
+                                        </div>
                                     </td>
                                 </tr>
                                 @endcan

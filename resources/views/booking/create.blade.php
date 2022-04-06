@@ -54,7 +54,7 @@
                         <div class="mb-3">
                             <label for="no_of_person" class="form-label">Number of Person</label>
                             <input
-                            type="tel" 
+                            type="number" 
                             class="form-control @error('no_of_person') is-invalid @enderror" 
                             id="no_of_person"
                             name="no_of_person">
