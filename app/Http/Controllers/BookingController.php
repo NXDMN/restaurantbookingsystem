@@ -3,23 +3,92 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Session;
 use App\Models\Booking;
 use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
 {
+
     public function index(){
-        $bookings = Booking::all();
-        return view('booking.index', ['bookings' => $bookings]);
+        $date_now = date("Y-m-d");
+        $futureBookings = Booking::whereDate('booking_date', '>', $date_now)
+            ->orderBy('booking_date', 'ASC')->orderBy('booking_time', 'ASC')
+            ->get();
+
+        $pastBookings = Booking::whereDate('booking_date', '<=', $date_now)
+            ->orderBy('booking_date', 'DESC')->orderBy('booking_time', 'DESC')
+            ->get();
+
+        $bookings = $futureBookings->merge($pastBookings);
+
+
+        $informations=[];
+        foreach ($bookings as $booking) {
+            $booking_id = $booking->id;
+            $customer_name = Booking::find($booking_id)->getUser;
+            $assigned_tables =$booking->getBookingtable()->orderBy('id')->get();
+            $table_numbers = [];
+            $table_seats = [];
+            foreach($assigned_tables as $table){
+                array_push($table_numbers,$table->table_number);
+                array_push($table_seats,$table->seats);
+            }
+            $information = array(
+                "booking_id" => $booking->id,
+                "customer_name" => $customer_name->name,
+                "table_numbers" => implode(',', $table_numbers),
+                "total_seat" => array_sum($table_seats),
+                "is_future_date" => $date_now < $booking->booking_date
+            );
+            array_push($informations,$information);
+        }
+
+        // echo json_encode($informations);
+        return view('booking.index', ['bookings' => $bookings, 'informations'=>$informations]);
     }
 
     public function show(){
-        $bookings = Booking::all();
-        return view('booking.show', ['bookings' => $bookings]);
+        $date_now = date("Y-m-d");
+        $futureBookings = Booking::whereDate('booking_date', '>', $date_now)
+            ->orderBy('booking_date', 'ASC')->orderBy('booking_time', 'ASC')
+            ->get();
+
+        $pastBookings = Booking::whereDate('booking_date', '<=', $date_now)
+            ->orderBy('booking_date', 'DESC')->orderBy('booking_time', 'DESC')
+            ->get();
+
+        $bookings = $futureBookings->merge($pastBookings);
+       
+        // $bookings = Booking::orderBy('booking_date', 'ASC')->orderBy('booking_time', 'ASC')->get();
+        $informations=[];
+        
+        foreach ($bookings as $booking) {
+            $assigned_tables =$booking->getBookingtable()->orderBy('id')->get();
+            $table_numbers = [];
+            $table_seats = [];
+            foreach($assigned_tables as $table){
+                array_push($table_numbers,$table->table_number);
+                array_push($table_seats,$table->seats);
+            }
+            $information = array(
+                "booking_id" => $booking->id,
+                "table_numbers" => implode(',', $table_numbers),
+                "total_seat" => array_sum($table_seats),
+                "is_future_date" => $date_now < $booking->booking_date
+            );
+            array_push($informations,$information);
+        }
+        return view('booking.show', ['bookings' => $bookings, 'informations'=>$informations]);
     }
 
     public function destroy(Booking $booking){
+        $booking_date = $booking['booking_date'];
+        $booking_time = $booking['booking_time'];
+        $message = "Your booking on $booking_date at $booking_time have been deleted";
+        Session::flash('message_delete',  $message); 
+
+        $booking->getBookingtable()->detach();
         $booking->delete();
         return redirect('/bookings/show');
     }
@@ -37,9 +106,12 @@ class BookingController extends Controller
         $booking->booking_time = $req->booking_time;
         $booking->contact_no = $req->contact_no;
         $booking->no_of_person = $req->no_of_person;
-        $booking->isConfirmed = false;
         $booking->save();
 
+        $booking_date = $booking['booking_date'];
+        $booking_time = $booking['booking_time'];
+        $message = "Your booking have been added on $booking_date at $booking_time";
+        Session::flash('message_success',  $message); 
         return redirect('/bookings/show');
     }
 
@@ -60,7 +132,7 @@ class BookingController extends Controller
         $booking->booking_time = $req->booking_time;
         $booking->contact_no = $req->contact_no;
         $booking->no_of_person = $req->no_of_person;
-        $booking->isConfirmed = false;
+        $booking->booking_status = "Pending";
         $booking->save();
 
         return redirect('/bookings/show');
@@ -68,7 +140,8 @@ class BookingController extends Controller
 
     public function updateStatus(Request $req, $id){
         $booking = Booking::findOrFail($id);
-        $booking->isConfirmed = $req->status == 'Confirmed' ? true : false;
+
+        $booking->booking_status = $req->status;
         $booking->save();
 
         return redirect('/bookings/index');

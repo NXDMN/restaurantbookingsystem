@@ -10,7 +10,7 @@
                     <form method="POST" action='/bookings/create'>
                         @csrf
                         <div class="mb-3">
-                            <label for="booking_date" class="form-label">Booking Date</label>
+                            <label for="booking_date" class="form-label">Booking Date (Booking only available for tomorrow onward)</label>
                             <input 
                             type="date" 
                             class="form-control @error('booking_date') is-invalid @enderror" 
@@ -24,7 +24,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="booking_time" class="form-label">Booking Time</label>
+                            <label for="booking_time" class="form-label">Booking Time (8:00AM to 10:00PM) </label>
                             <input
                             type="time" 
                             class="form-control @error('booking_time') is-invalid @enderror" 
@@ -38,7 +38,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="contact_no" class="form-label">Contact Number</label>
+                            <label for="contact_no" class="form-label">Contact Number (eg. 012-5375867)</label>
                             <input
                             type="tel" 
                             class="form-control @error('contact_no') is-invalid @enderror" 
@@ -52,7 +52,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="no_of_person" class="form-label">Number of Person</label>
+                            <label for="no_of_person" class="form-label">Number of Person (1-8)</label>
                             <input
                             type="number" 
                             class="form-control @error('no_of_person') is-invalid @enderror" 

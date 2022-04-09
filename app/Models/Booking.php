@@ -12,10 +12,10 @@ class Booking extends Model
     use HasFactory;
 
     public function getUser(){
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'user_id')->select(['name']);
     }
 
     public function getBookingtable(){
-        return $this->hasOne(Bookingtable::class);
+        return $this->belongsToMany(Bookingtable::class);
     }
 }
