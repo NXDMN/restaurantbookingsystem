@@ -42,15 +42,19 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::view('/admin', 'admin');
     Route::get('/bookings/index', [BookingController::class, 'index']);
     Route::get('/bookingtables/index', [BookingtableController::class, 'index']);
-    Route::get('/bookingtables/create/{id}', function($id){
-        return view('bookingtable.create', ['booking_id' => $id]);
-    });
+    // Route::get('/bookingtables/assign/{id}', function($id){
+    //     return view('bookingtable.assign', ['booking_id' => $id]);
+    // });
+
+    Route::get('/bookingtables/assign/{id}', [BookingtableController::class, 'showAssign']);
+    Route::view('/bookingtables/create','bookingtable/create' );
     Route::get('/bookingtables/edit/{id}', [BookingtableController::class, 'showEdit']);
 
 });
 
 Route::put('/bookings/updateStatus/{id}', [BookingController::class, 'updateStatus'])->middleware('can:isAdmin');
 Route::post('/bookingtables/create', [BookingtableController::class, 'create'])->middleware('can:isAdmin');
+Route::post('/bookingtables/assign', [BookingtableController::class, 'assign'])->middleware('can:isAdmin');
 Route::post('/bookingtables/edit', [BookingtableController::class, 'edit'])->middleware('can:isAdmin');
 Route::delete('/bookingtables/{bookingtable}', [BookingtableController::class, 'destroy'])->middleware('can:isAdmin');
 

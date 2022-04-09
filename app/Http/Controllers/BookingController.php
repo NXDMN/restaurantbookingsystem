@@ -9,17 +9,66 @@ use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
 {
+
     public function index(){
-        $bookings = Booking::all();
-        return view('booking.index', ['bookings' => $bookings]);
+        $bookings = Booking::orderBy('booking_date', 'ASC')->orderBy('booking_time', 'ASC')->get();
+        // $customers_name = array_map("getCustomerName",$bookings->toArray());
+        // $customers_names =array_map(function ($booking){
+        //     // echo json_encode($booking['user_id']);
+        //     $user_id = $booking['user_id'];
+        //     $customer_name = Booking::find($user_id)->getUser;
+        //     // $new_booking = $booking;
+        //     // $new_booking['customer_name'] = $customer_name['name'];
+        //     // echo json_encode($new_booking);
+        //     return $customer_name;
+        // }, $bookings->toArray());
+
+        $informations=[];
+        foreach ($bookings as $booking) {
+            $user_id = $booking->user_id;
+            $customer_name = Booking::find($user_id)->getUser;
+            $assigned_tables =$booking->getBookingtable()->orderBy('id')->get();
+            $table_numbers = [];
+            $table_seats = [];
+            foreach($assigned_tables as $table){
+                array_push($table_numbers,$table->table_number);
+                array_push($table_seats,$table->seats);
+            }
+            $information = array(
+                "booking_id" => $booking->id,
+                "customer_name" => $customer_name->name,
+                "table_numbers" => implode(',', $table_numbers),
+                "total_seat" => array_sum($table_seats)
+            );
+            array_push($informations,$information);
+        }
+        // echo json_encode($informations);
+        return view('booking.index', ['bookings' => $bookings, 'informations'=>$informations]);
     }
 
     public function show(){
-        $bookings = Booking::all();
-        return view('booking.show', ['bookings' => $bookings]);
+        $bookings = Booking::orderBy('booking_date', 'ASC')->orderBy('booking_time', 'ASC')->get();
+        $informations=[];
+        foreach ($bookings as $booking) {
+            $assigned_tables =$booking->getBookingtable()->orderBy('id')->get();
+            $table_numbers = [];
+            $table_seats = [];
+            foreach($assigned_tables as $table){
+                array_push($table_numbers,$table->table_number);
+                array_push($table_seats,$table->seats);
+            }
+            $information = array(
+                "booking_id" => $booking->id,
+                "table_numbers" => implode(',', $table_numbers),
+                "total_seat" => array_sum($table_seats)
+            );
+            array_push($informations,$information);
+        }
+        return view('booking.show', ['bookings' => $bookings, 'informations'=>$informations]);
     }
 
     public function destroy(Booking $booking){
+        $booking->getBookingtable()->detach();
         $booking->delete();
         return redirect('/bookings/show');
     }
@@ -37,7 +86,7 @@ class BookingController extends Controller
         $booking->booking_time = $req->booking_time;
         $booking->contact_no = $req->contact_no;
         $booking->no_of_person = $req->no_of_person;
-        $booking->isConfirmed = false;
+        // $booking->booking_status = false;
         $booking->save();
 
         return redirect('/bookings/show');
@@ -60,7 +109,7 @@ class BookingController extends Controller
         $booking->booking_time = $req->booking_time;
         $booking->contact_no = $req->contact_no;
         $booking->no_of_person = $req->no_of_person;
-        $booking->isConfirmed = false;
+        $booking->booking_status = "Pending";
         $booking->save();
 
         return redirect('/bookings/show');
@@ -68,7 +117,8 @@ class BookingController extends Controller
 
     public function updateStatus(Request $req, $id){
         $booking = Booking::findOrFail($id);
-        $booking->isConfirmed = $req->status == 'Confirmed' ? true : false;
+
+        $booking->booking_status = $req->status;
         $booking->save();
 
         return redirect('/bookings/index');

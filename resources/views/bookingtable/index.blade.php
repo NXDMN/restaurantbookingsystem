@@ -5,13 +5,17 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">All Booking Tables</div>
+                <div class="card-header">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div> All Booking Tables</div>
+                        <a class="btn btn-primary" href="/bookingtables/create" role="button">Add Table</a>
+                    </div>
+                </div>
                 <div class="card-body">
                     <table class="table">
                         <thead>
                             <tr>
                                 <th scope="col">No.</th>
-                                <th scope="col">Booking ID</th>
                                 <th scope="col">Table Number</th>
                                 <th scope="col">Seats</th>
                                 <th scope="col">Actions</th>
@@ -22,7 +26,6 @@
                                 @can('viewAny', $bookingtable)
                                 <tr>
                                     <th scope="row">{{$bookingtable['id']}}</th>
-                                    <td>{{$bookingtable['booking_id']}}</td>
                                     <td>{{$bookingtable['table_number']}}</td>
                                     <td>{{$bookingtable['seats']}}</td>
                                     <td>

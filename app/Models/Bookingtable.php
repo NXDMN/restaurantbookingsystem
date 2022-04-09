@@ -11,6 +11,6 @@ class Bookingtable extends Model
     use HasFactory;
 
     public function getBooking(){
-        return $this->belongsTo(Booking::class);
+        return $this->belongsToMany(Booking::class);
     }
 }

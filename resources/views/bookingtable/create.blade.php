@@ -5,12 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Add Booking Table for Bookings id {{$booking_id}}</div>
+                <div class="card-header">Add Table For The Eats</div>
                 <div class="card-body">
                     <form method="POST" action='/bookingtables/create'>
                         @csrf
-                        <input type="hidden" name="booking_id" value="{{$booking_id}}"/>
-
                         <div class="mb-3">
                             <label for="table_number" class="form-label">Table Number</label>
                             <input 
@@ -25,7 +23,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="seats" class="form-label">Seats</label>
+                            <label for="seats" class="form-label">Seats (1 to 8)</label>
                             <input
                             type="number" 
                             class="form-control @error('seats') is-invalid @enderror" 

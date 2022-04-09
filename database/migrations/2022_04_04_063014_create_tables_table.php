@@ -15,7 +15,6 @@ class CreateTablesTable extends Migration
     {
         Schema::create('bookingtables', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('booking_id');
             $table->string('table_number');
             $table->integer('seats');
             $table->timestamps();
