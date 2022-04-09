@@ -57,6 +57,7 @@ class BookingtableController extends Controller
 
         $bookingtables = Bookingtable::all();
         $newbookingtables = [];
+        $booking_inforamtion = NULL;
         foreach ($bookingtables as $table) {
             $all_bookings = $table->getBooking()->orderBy('id')->get();
             $is_assign_to_self = false;

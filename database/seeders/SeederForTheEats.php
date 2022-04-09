@@ -17,6 +17,7 @@ class SeederForTheEats extends Seeder
     public function run()
     {
         $now = Carbon::now()->toDateTimeString();
+        $date_today = Carbon::now()->toDateString(); // format('Y-m-d');
 
         $users = [
             ['name'=>'David Faroq', 'email'=>'admin@gmail.com', 'role'=>'admin', 'password'=>Hash::make('qwe123')],
@@ -27,11 +28,14 @@ class SeederForTheEats extends Seeder
         ];
 
         $bookings = [
-            ['user_id'=>2, 'booking_date'=>new Carbon('2022-05-01'), 'booking_time'=>new Carbon('12:30:00'), 'contact_no'=>'012-1180636', 'no_of_person'=>5,'booking_status'=>'pending'],
-            ['user_id'=>2, 'booking_date'=>new Carbon('2022-05-01'), 'booking_time'=>new Carbon('12:30:00'), 'contact_no'=>'012-1180636', 'no_of_person'=>8,'booking_status'=>'pending'],
-            ['user_id'=>3, 'booking_date'=>new Carbon('2022-05-01'), 'booking_time'=>new Carbon('12:30:00'), 'contact_no'=>'012-1180636', 'no_of_person'=>7,'booking_status'=>'pending'],
-            ['user_id'=>4, 'booking_date'=>new Carbon('2022-05-01'), 'booking_time'=>new Carbon('12:30:00'), 'contact_no'=>'012-1180636', 'no_of_person'=>5,'booking_status'=>'pending'],
-            ['user_id'=>5, 'booking_date'=>new Carbon('2022-05-01'), 'booking_time'=>new Carbon('12:30:00'), 'contact_no'=>'012-1180636', 'no_of_person'=>2,'booking_status'=>'pending'],
+            ['user_id'=>2, 'booking_date'=>new Carbon('2022-05-01'), 'booking_time'=>new Carbon('12:30:00'), 'contact_no'=>'012-1180636', 'no_of_person'=>5,'booking_status'=>'Pending'],
+            ['user_id'=>2, 'booking_date'=>new Carbon('2022-05-01'), 'booking_time'=>new Carbon('12:30:00'), 'contact_no'=>'012-1180636', 'no_of_person'=>8,'booking_status'=>'Pending'],
+            ['user_id'=>2, 'booking_date'=>new Carbon('2022-04-01'), 'booking_time'=>new Carbon('12:30:00'), 'contact_no'=>'012-1180636', 'no_of_person'=>8,'booking_status'=>'Cancelled'],
+            ['user_id'=>2, 'booking_date'=>$date_today, 'booking_time'=>new Carbon('12:30:00'), 'contact_no'=>'012-1180636', 'no_of_person'=>8,'booking_status'=>'Cancelled'],
+            ['user_id'=>2, 'booking_date'=>new Carbon('2022-04-01'), 'booking_time'=>new Carbon('13:30:00'), 'contact_no'=>'012-1180636', 'no_of_person'=>8,'booking_status'=>'Confirmed'],
+            ['user_id'=>3, 'booking_date'=>new Carbon('2022-05-01'), 'booking_time'=>new Carbon('11:40:00'), 'contact_no'=>'012-1180636', 'no_of_person'=>7,'booking_status'=>'Pending'],
+            ['user_id'=>4, 'booking_date'=>new Carbon('2022-05-01'), 'booking_time'=>new Carbon('13:20:00'), 'contact_no'=>'012-1180636', 'no_of_person'=>5,'booking_status'=>'Pending'],
+            ['user_id'=>5, 'booking_date'=>new Carbon('2022-05-01'), 'booking_time'=>new Carbon('12:30:00'), 'contact_no'=>'012-1180636', 'no_of_person'=>2,'booking_status'=>'Pending'],
         ];
 
         $bookingtables = [

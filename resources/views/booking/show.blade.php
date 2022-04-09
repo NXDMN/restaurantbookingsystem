@@ -26,10 +26,11 @@
                             </tr>
                         </thead>
                         <tbody>
+                        @php ($i = 1)
                         @foreach($bookings as $index => $booking)
                             @can('view', $booking)
                             <tr>
-                                <th scope="row">{{$index+1}}</th>
+                                <th scope="row">{{$i++}}</th>
                                 <td>{{$booking['booking_date']}}</td>
                                 <td>{{date('h:i A', strtotime($booking['booking_time']))}}</td>
                                 <td>{{$booking['contact_no']}}</td>
@@ -38,14 +39,14 @@
                                 <td>
                                     <div class="btn-group" role="group" aria-label="actions" >
                                         @can('update', $booking)
-                                        <a class="btn btn-warning btn-sm" href="/bookings/edit/{{$booking['id']}}" role="button">Edit</a>
+                                        <a class="btn btn-warning btn-sm {{$informations[$index]['is_future_date']?"":"disabled"}}" href="/bookings/edit/{{$booking['id']}}" role="button">Edit</a>
                                         @endcan
                                         
                                         @can('delete', $booking)
                                         <form method="post" action="/bookings/{{$booking['id']}}">
                                             @csrf
                                             @method('delete')
-                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                            <button type="submit" class="btn btn-danger btn-sm {{$informations[$index]['is_future_date']?"":"disabled"}}">Delete</button>
                                         </form>
                                         @endcan
                                     </div>

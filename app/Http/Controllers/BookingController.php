@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
+use Carbon\Carbon;
 use App\Models\Booking;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,22 +11,22 @@ class BookingController extends Controller
 {
 
     public function index(){
-        $bookings = Booking::orderBy('booking_date', 'ASC')->orderBy('booking_time', 'ASC')->get();
-        // $customers_name = array_map("getCustomerName",$bookings->toArray());
-        // $customers_names =array_map(function ($booking){
-        //     // echo json_encode($booking['user_id']);
-        //     $user_id = $booking['user_id'];
-        //     $customer_name = Booking::find($user_id)->getUser;
-        //     // $new_booking = $booking;
-        //     // $new_booking['customer_name'] = $customer_name['name'];
-        //     // echo json_encode($new_booking);
-        //     return $customer_name;
-        // }, $bookings->toArray());
+        $date_now = date("Y-m-d");
+        $futureBookings = Booking::whereDate('booking_date', '>', $date_now)
+            ->orderBy('booking_date', 'ASC')->orderBy('booking_time', 'ASC')
+            ->get();
+
+        $pastBookings = Booking::whereDate('booking_date', '<=', $date_now)
+            ->orderBy('booking_date', 'DESC')->orderBy('booking_time', 'DESC')
+            ->get();
+
+        $bookings = $futureBookings->merge($pastBookings);
+
 
         $informations=[];
         foreach ($bookings as $booking) {
-            $user_id = $booking->user_id;
-            $customer_name = Booking::find($user_id)->getUser;
+            $booking_id = $booking->id;
+            $customer_name = Booking::find($booking_id)->getUser;
             $assigned_tables =$booking->getBookingtable()->orderBy('id')->get();
             $table_numbers = [];
             $table_seats = [];
@@ -38,17 +38,31 @@ class BookingController extends Controller
                 "booking_id" => $booking->id,
                 "customer_name" => $customer_name->name,
                 "table_numbers" => implode(',', $table_numbers),
-                "total_seat" => array_sum($table_seats)
+                "total_seat" => array_sum($table_seats),
+                "is_future_date" => $date_now < $booking->booking_date
             );
             array_push($informations,$information);
         }
+
         // echo json_encode($informations);
         return view('booking.index', ['bookings' => $bookings, 'informations'=>$informations]);
     }
 
     public function show(){
-        $bookings = Booking::orderBy('booking_date', 'ASC')->orderBy('booking_time', 'ASC')->get();
+        $date_now = date("Y-m-d");
+        $futureBookings = Booking::whereDate('booking_date', '>', $date_now)
+            ->orderBy('booking_date', 'ASC')->orderBy('booking_time', 'ASC')
+            ->get();
+
+        $pastBookings = Booking::whereDate('booking_date', '<=', $date_now)
+            ->orderBy('booking_date', 'DESC')->orderBy('booking_time', 'DESC')
+            ->get();
+
+        $bookings = $futureBookings->merge($pastBookings);
+       
+        // $bookings = Booking::orderBy('booking_date', 'ASC')->orderBy('booking_time', 'ASC')->get();
         $informations=[];
+        
         foreach ($bookings as $booking) {
             $assigned_tables =$booking->getBookingtable()->orderBy('id')->get();
             $table_numbers = [];
@@ -60,7 +74,8 @@ class BookingController extends Controller
             $information = array(
                 "booking_id" => $booking->id,
                 "table_numbers" => implode(',', $table_numbers),
-                "total_seat" => array_sum($table_seats)
+                "total_seat" => array_sum($table_seats),
+                "is_future_date" => $date_now < $booking->booking_date
             );
             array_push($informations,$information);
         }

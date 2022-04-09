@@ -33,7 +33,7 @@
                                 <td>
                                     <div class="dropdown">
                                         <button
-                                            class="btn {{$booking['booking_status'] == "Confirmed" ? 'btn-success' : ($booking['booking_status'] == "Pending" ?'btn-warning' :'btn-danger')}} btn-sm dropdown-toggle"
+                                            class="btn {{$booking['booking_status'] == "Confirmed" ? 'btn-success' : ($booking['booking_status'] == "Pending" ?'btn-warning' :'btn-danger')}} btn-sm dropdown-toggle {{$informations[$index]['is_future_date']?"":"disabled"}}"
                                             type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
                                             aria-expanded="false">
                                             {{$booking['booking_status']}}
@@ -70,10 +70,10 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="btn-group" role="group" aria-label="actions">
-                                        <a class="btn btn-primary btn-sm"
-                                            href="/bookingtables/assign/{{$booking['id']}}" role="button">Assign
-                                            Table</a>
+                                    <div class="btn-group" role="group" aria-label="actions" >
+                                        <a class="btn btn-primary btn-sm {{$informations[$index]['is_future_date']?"":"disabled"}}"
+                                            href="/bookingtables/assign/{{$booking['id']}}" role="button" aria-disabled="true">
+                                            {{$informations[$index]['is_future_date']?"Assign Table":"Expired"}}</a>
                                     </div>
                                 </td>
                                 @if($informations[$index]['total_seat']==0)

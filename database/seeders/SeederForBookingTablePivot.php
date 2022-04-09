@@ -15,12 +15,14 @@ class SeederForBookingTablePivot extends Seeder
      */
     public function run()
     {
-        $bookings = Booking::all()->random(1);
+        // $bookings = Booking::all()->random(1);
         // $table = Bookingtable::all()->random(1);
+        $booking = Booking::findOrFail(5);
         $table = Bookingtable::whereIn('id', [1])->get();
 
-        $bookings->each(function(Booking $booking)use ($table){
-            $booking->getBookingtable()->attach($table->pluck('id'));
-        });
+        $booking->getBookingtable()->attach($table->pluck('id'));
+        // $bookings->each(function(Booking $booking)use ($table){
+        //     $booking->getBookingtable()->attach($table->pluck('id'));
+        // });
     }
 }
