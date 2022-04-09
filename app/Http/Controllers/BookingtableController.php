@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use App\Models\Bookingtable;
 use App\Models\Booking;
 
@@ -97,10 +98,19 @@ class BookingtableController extends Controller
     }
 
     public function assign(Request $req){
-        $booking = Booking::findOrFail($req->booking_id);
+        $booking_id = $req->booking_id;
+
+        $booking = Booking::findOrFail($booking_id);
         $tables = $req->selected_table;
         $booking->getBookingtable()->detach();
         $booking->getBookingtable()->attach($tables);
+
+        $customer_name = Booking::find($booking_id)->getUser->name;
+        $table_count = count($tables);
+        $booking_date = $booking->booking_date;
+        $booking_time = $booking->booking_time;
+        $message = "Added $table_count table to $customer_name booking with id $booking_id on $booking_date at $booking_time";
+        Session::flash('message_success',  $message); 
         return redirect('/bookings/index');
     }
 }

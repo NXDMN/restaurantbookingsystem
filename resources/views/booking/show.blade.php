@@ -1,7 +1,7 @@
 @extends('layouts.auth')
-
 @section('content')
 <div class="container">
+    @include('flashMessage')
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -19,7 +19,7 @@
                                 <th scope="col">Date</th>
                                 <th scope="col">Time</th>
                                 <th scope="col">Contact No.</th>
-                                <th scope="col">No. of person</th>
+                                <th scope="col">Pax number</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Actions</th>
                                 <th scope="col">Your Table</th>
@@ -37,18 +37,18 @@
                                 <td>{{$booking['no_of_person']}}</td>
                                 <td>{{$booking['booking_status']}}</td>
                                 <td>
-                                    <div class="btn-group" role="group" aria-label="actions" >
-                                        @can('update', $booking)
-                                        <a class="btn btn-warning btn-sm {{$informations[$index]['is_future_date']?"":"disabled"}}" href="/bookings/edit/{{$booking['id']}}" role="button">Edit</a>
-                                        @endcan
-                                        
-                                        @can('delete', $booking)
-                                        <form method="post" action="/bookings/{{$booking['id']}}">
-                                            @csrf
-                                            @method('delete')
-                                            <button type="submit" class="btn btn-danger btn-sm {{$informations[$index]['is_future_date']?"":"disabled"}}">Delete</button>
-                                        </form>
-                                        @endcan
+                                        <div class="btn-group" role="group" aria-label="actions" >
+                                            @can('update', $booking)
+                                                <a class="btn btn-warning btn-sm {{$informations[$index]['is_future_date']?"":"disabled"}} " href="/bookings/edit/{{$booking['id']}}" role="button">Edit</a>
+                                            @endcan
+                                            
+                                            @can('delete', $booking)
+                                            <form method="post" action="/bookings/{{$booking['id']}}">
+                                                @csrf
+                                                @method('delete')
+                                                <button type="submit" class="btn btn-danger btn-sm {{$informations[$index]['is_future_date']?"":"disabled"}}">Delete</button>
+                                            </form>
+                                            @endcan
                                     </div>
                                 </td>
                                 @if($informations[$index]['total_seat']==0)

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Session;
 use App\Models\Booking;
 use Illuminate\Support\Facades\Auth;
 
@@ -83,6 +83,11 @@ class BookingController extends Controller
     }
 
     public function destroy(Booking $booking){
+        $booking_date = $booking['booking_date'];
+        $booking_time = $booking['booking_time'];
+        $message = "Your booking on $booking_date at $booking_time have been deleted";
+        Session::flash('message_delete',  $message); 
+
         $booking->getBookingtable()->detach();
         $booking->delete();
         return redirect('/bookings/show');
@@ -101,9 +106,12 @@ class BookingController extends Controller
         $booking->booking_time = $req->booking_time;
         $booking->contact_no = $req->contact_no;
         $booking->no_of_person = $req->no_of_person;
-        // $booking->booking_status = false;
         $booking->save();
 
+        $booking_date = $booking['booking_date'];
+        $booking_time = $booking['booking_time'];
+        $message = "Your booking have been added on $booking_date at $booking_time";
+        Session::flash('message_success',  $message); 
         return redirect('/bookings/show');
     }
 

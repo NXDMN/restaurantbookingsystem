@@ -1,6 +1,7 @@
 @extends('layouts.auth')
 @section('content')
 <div class="container">
+    @include('flashMessage')
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -73,7 +74,7 @@
                                     <div class="btn-group" role="group" aria-label="actions" >
                                         <a class="btn btn-primary btn-sm {{$informations[$index]['is_future_date']?"":"disabled"}}"
                                             href="/bookingtables/assign/{{$booking['id']}}" role="button" aria-disabled="true">
-                                            {{$informations[$index]['is_future_date']?"Assign Table":"Expired"}}</a>
+                                            {{$informations[$index]['is_future_date']?"Assign":"Expired"}}</a>
                                     </div>
                                 </td>
                                 @if($informations[$index]['total_seat']==0)
