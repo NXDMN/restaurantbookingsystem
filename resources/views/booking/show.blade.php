@@ -37,7 +37,10 @@
                                 <td>{{$booking['no_of_person']}}</td>
                                 <td>{{$booking['booking_status']}}</td>
                                 <td>
-                                        <div class="btn-group" role="group" aria-label="actions" >
+                                    <div class="btn-group" role="group" aria-label="actions" >
+                                            @can('update', $booking)
+                                                <a class="btn btn-info btn-sm {{$informations[$index]['is_future_date']?"":"disabled"}} " href="/orders/index/{{$booking['id']}}" role="button">Menu</a>
+                                            @endcan
                                             @can('update', $booking)
                                                 <a class="btn btn-warning btn-sm {{$informations[$index]['is_future_date']?"":"disabled"}} " href="/bookings/edit/{{$booking['id']}}" role="button">Edit</a>
                                             @endcan
