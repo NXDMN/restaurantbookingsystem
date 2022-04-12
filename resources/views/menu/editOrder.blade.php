@@ -17,6 +17,8 @@
                         @csrf
                         <input type="hidden" name="booking_id" value="{{$booking['id']}}" />
 
+                        <input type="hidden" name="old_menu_id" value="{{$menu_id}}" />
+
                         <div class="form-check">
                             
                             <div class="mb-3">

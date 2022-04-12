@@ -109,9 +109,10 @@ class MenuController extends Controller
         $booking_id = $req->booking_id;
 
         $booking = Booking::findOrFail($booking_id);
+        $old_menu_id = $req->old_menu_id;
         $menu_id = $req->menu_id;
         $quantity = $req->quantity;
-        $booking->getMenu()->detach([['menu_id' => $menu_id]]);
+        $booking->getMenu()->detach([['menu_id' => $old_menu_id]]);
         $booking->getMenu()->attach([['menu_id'=>$menu_id,'quantity'=>$quantity]]);
 
         $customer_name = Booking::find($booking_id)->getUser->name;
