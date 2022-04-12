@@ -13,6 +13,9 @@
                     <a href="bookingtables/index" class="btn btn-primary btn-lg">
                         Booking Tables
                     </a>
+                    <a href="menu/index" class="btn btn-primary btn-lg">
+                        Menu
+                    </a>
                 </div>
             </div>
         </div>
