@@ -8,7 +8,6 @@ use App\Http\Controllers\BookingtableController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Menu;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,21 +36,18 @@ Route::group(['middleware' => ['auth', 'role:customer']], function () {
     Route::view('/bookings/create', 'booking.create');
     Route::get('/bookings/edit/{id}', [BookingController::class, 'showEdit']);
 
-    Route::get('/orders/index/{id}', [OrderController::class, 'index']);
-
-    $menulist = MenuController::getMenu();
-    $dining_packages = MenuController::getPackages();
-    Route::view('/orders/create','order.create',['dining_packages' => $dining_packages, 'menulist' => $menulist]);
-    Route::get('/orders/edit/{id}', [OrderController::class, 'showEdit']);
+    Route::get('/menu/showOrder/{id}', [MenuController::class, 'showOrder']);
+    Route::get('/menu/createOrder/{id}', [MenuController::class, 'showCreateOrder']);
+    Route::get('/menu/editOrder/{booking_id}/{menu_id}', [MenuController::class, 'showEditOrder']);
 });
 
 Route::post('/bookings/create', [BookingController::class, 'create'])->middleware('can:isCustomer');
 Route::post('/bookings/edit', [BookingController::class, 'edit'])->middleware('can:isCustomer');
 Route::delete('/bookings/{booking}', [BookingController::class, 'destroy'])->middleware('can:isCustomer');
 
-Route::post('/orders/create', [OrderController::class, 'create'])->middleware('can:isCustomer');
-Route::post('/orders/edit', [OrderController::class, 'edit'])->middleware('can:isCustomer');
-Route::delete('/orders/{order}', [OrderController::class, 'destroy'])->middleware('can:isCustomer');
+Route::post('/menu/createOrder', [MenuController::class, 'createOrder'])->middleware('can:isCustomer');
+Route::post('/menu/editOrder', [MenuController::class, 'editOrder'])->middleware('can:isCustomer');
+Route::delete('/menu/destroyOrder/{booking_id}/{menu_id}', [MenuController::class, 'destroyOrder'])->middleware('can:isCustomer');
 
 Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::view('/admin', 'admin');

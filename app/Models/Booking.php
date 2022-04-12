@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Bookingtable;
-use App\Models\Order;
+use App\Models\Menu;
 
 class Booking extends Model
 {
@@ -20,7 +20,8 @@ class Booking extends Model
         return $this->belongsToMany(Bookingtable::class);
     }
 
-    public function getOrder(){
-        return $this->hasMany(Order::class);
+    public function getMenu(){
+        return $this->belongsToMany(Menu::class)->withPivot('quantity');
     }
+
 }

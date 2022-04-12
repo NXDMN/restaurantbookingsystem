@@ -30,7 +30,7 @@ class MenuPolicy
      */
     public function view(User $user, Menu $menu)
     {
-        //
+        return $user->role == 'customer';
     }
 
     /**
@@ -53,7 +53,7 @@ class MenuPolicy
      */
     public function update(User $user, Menu $menu)
     {
-        return $user->role == 'admin';
+        return true;
     }
 
     /**
@@ -65,7 +65,7 @@ class MenuPolicy
      */
     public function delete(User $user, Menu $menu)
     {
-        return $user->role == 'admin';
+        return true;
     }
 
     /**

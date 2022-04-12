@@ -62,7 +62,6 @@ class BookingController extends Controller
        
         // $bookings = Booking::orderBy('booking_date', 'ASC')->orderBy('booking_time', 'ASC')->get();
         $informations=[];
-        
         foreach ($bookings as $booking) {
             $assigned_tables =$booking->getBookingtable()->orderBy('id')->get();
             $table_numbers = [];
@@ -70,7 +69,7 @@ class BookingController extends Controller
             foreach($assigned_tables as $table){
                 array_push($table_numbers,$table->table_number);
                 array_push($table_seats,$table->seats);
-            }
+            } 
             $information = array(
                 "booking_id" => $booking->id,
                 "table_numbers" => implode(',', $table_numbers),
