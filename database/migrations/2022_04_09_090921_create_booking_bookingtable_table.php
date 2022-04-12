@@ -18,6 +18,7 @@ class CreateBookingBookingtableTable extends Migration
             $table->foreignId('bookingtable_id');
             $table->foreign('booking_id')->references('id')->on('bookings')->onDelete('cascade');
             $table->foreign('bookingtable_id')->references('id')->on('bookingtables')->onDelete('cascade');
+            $table->primary(['booking_id', 'bookingtable_id']);
         });
     }
 
