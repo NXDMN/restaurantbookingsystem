@@ -57,12 +57,11 @@ class MenuController extends Controller
     public function showOrder($id){
         $selected_booking = Booking::findOrFail($id);
         $date_now = date("Y-m-d");
-        // $is_future_date = $date_now < $selected_booking->booking_date;
-        // echo $is_future_date;
+        $is_future_date = $date_now < $selected_booking->booking_date;
         $menulist = Menu::all(); 
         $booking_menu = $selected_booking->getMenu()->orderBy('booking_id')->get();
             
-        return view('menu.showOrder', ['selected_booking'=>$selected_booking, 'menulist'=>$menulist,'booking_menu'=>$booking_menu]);
+        return view('menu.showOrder', ['selected_booking'=>$selected_booking, 'menulist'=>$menulist,'booking_menu'=>$booking_menu,'is_future_date'=>$is_future_date]);
     }
 
     public function showCreateOrder($id){
