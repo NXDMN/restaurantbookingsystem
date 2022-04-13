@@ -29,4 +29,6 @@ php artisan migrate
 ```
 php artisan db:seed --class SeederForTheEats
 php artisan db:seed --class SeederForBookingTablePivot
+php artisan db:seed --class SeederForMenu
+php artisan db:seed --class SeederForBookingMenu
 ```

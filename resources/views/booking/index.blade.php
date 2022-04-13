@@ -11,14 +11,15 @@
                         <thead>
                             <tr>
                                 <th scope="col">No.</th>
-                                <th scope="col">Customer Name</th>
+                                <th scope="col">Customer</th>
                                 <th scope="col">Date</th>
                                 <th scope="col">Time</th>
                                 <th scope="col">Contact No.</th>
-                                <th scope="col">No. of person</th>
+                                <th scope="col">Person</th>
                                 <th scope="col">Status</th>
-                                <th scope="col">Actions</th>
-                                <th scope="col">Assigned Table</th>
+                                <th scope="col">Order</th>
+                                <th scope="col">Table</th>
+                                <th scope="col">Actions</th>                               
                             </tr>
                         </thead>
                         <tbody>
@@ -72,16 +73,21 @@
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="actions" >
+                                        <a class="btn btn-primary btn-sm" href="/menu/showCustomerOrder/{{$booking['id']}}" role="button" aria-disabled="true">order</a>
+                                    </div>
+                                </td>
+                                @if($informations[$index]['total_seat']==0)
+                                <td>None</td> 
+                            @else
+                                <td>{{$informations[$index]['table_numbers']}}({{$informations[$index]['total_seat']}}pax)</td>
+                            @endif
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="actions" >
                                         <a class="btn btn-primary btn-sm {{$informations[$index]['is_future_date']?"":"disabled"}}"
                                             href="/bookingtables/assign/{{$booking['id']}}" role="button" aria-disabled="true">
                                             {{$informations[$index]['is_future_date']?"Assign":"Expired"}}</a>
                                     </div>
                                 </td>
-                                @if($informations[$index]['total_seat']==0)
-                                    <td>None</td> 
-                                @else
-                                    <td>{{$informations[$index]['table_numbers']}}({{$informations[$index]['total_seat']}}pax)</td>
-                                @endif
                             </tr>
                             @endcan
                             @endforeach

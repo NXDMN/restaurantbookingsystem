@@ -39,7 +39,7 @@
                                 <td>
                                     <div class="btn-group" role="group" aria-label="actions" >
                                             @can('update', $booking)
-                                                <a class="btn btn-info btn-sm {{$informations[$index]['is_future_date']?"":"disabled"}} " href="/menu/showOrder/{{$booking['id']}}" role="button">Menu</a>
+                                                <a class="btn btn-info btn-sm" href="/menu/showOrder/{{$booking['id']}}" role="button">Menu</a>
                                             @endcan
                                             @can('update', $booking)
                                                 <a class="btn btn-warning btn-sm {{$informations[$index]['is_future_date']?"":"disabled"}} " href="/bookings/edit/{{$booking['id']}}" role="button">Edit</a>
