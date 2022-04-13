@@ -57,14 +57,13 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     // Route::get('/bookingtables/assign/{id}', function($id){
     //     return view('bookingtable.assign', ['booking_id' => $id]);
     // });
-
     Route::get('/bookingtables/assign/{id}', [BookingtableController::class, 'showAssign']);
     Route::view('/bookingtables/create','bookingtable/create' );
     Route::get('/bookingtables/edit/{id}', [BookingtableController::class, 'showEdit']);
 
     Route::view('/menu/create','menu/create' );
     Route::get('/menu/edit/{id}', [MenuController::class, 'showEdit']);
-
+    Route::get('/menu/showCustomerOrder/{id}', [MenuController::class, 'showCustomerOrder']);
 });
 
 Route::put('/bookings/updateStatus/{id}', [BookingController::class, 'updateStatus'])->middleware('can:isAdmin');

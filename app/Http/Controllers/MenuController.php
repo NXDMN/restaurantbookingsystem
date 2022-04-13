@@ -56,10 +56,20 @@ class MenuController extends Controller
 
     public function showOrder($id){
         $selected_booking = Booking::findOrFail($id);
+        $date_now = date("Y-m-d");
+        $is_future_date = $date_now < $selected_booking->booking_date;
         $menulist = Menu::all(); 
         $booking_menu = $selected_booking->getMenu()->orderBy('booking_id')->get();
             
-        return view('menu.showOrder', ['selected_booking'=>$selected_booking, 'menulist'=>$menulist,'booking_menu'=>$booking_menu]);
+        return view('menu.showOrder', ['selected_booking'=>$selected_booking, 'menulist'=>$menulist,'booking_menu'=>$booking_menu,'is_future_date'=>$is_future_date]);
+    }
+
+    public function showCustomerOrder($id){
+        $selected_booking = Booking::findOrFail($id);
+        $booking_menu = $selected_booking->getMenu()->orderBy('booking_id')->get();
+        $customer_name = $selected_booking->getUser->name;
+        $menulist = Menu::all(); 
+        return view('menu.showCustomerOrder', ['customer_name'=>$customer_name,'menulist'=>$menulist, 'selected_booking'=>$selected_booking, 'booking_menu'=>$booking_menu]);
     }
 
     public function showCreateOrder($id){
@@ -71,6 +81,9 @@ class MenuController extends Controller
     }
 
     public function createOrder(Request $req){
+        $req->validate([
+            'quantity' => 'required | integer | gt:0',
+        ]);
         $booking_id = $req->booking_id;
 
         $booking = Booking::findOrFail($booking_id);
@@ -106,6 +119,9 @@ class MenuController extends Controller
     }
 
     public function editOrder(Request $req){
+        $req->validate([
+            'quantity' => 'required | integer | gt:0',
+        ]);
         $booking_id = $req->booking_id;
 
         $booking = Booking::findOrFail($booking_id);
