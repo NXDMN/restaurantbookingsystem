@@ -71,6 +71,11 @@ class MenuController extends Controller
     }
 
     public function createOrder(Request $req){
+        $req->validate([
+            'booking_id' => 'required',
+            'menu_id' => 'required',
+            'quantity' => 'required | integer | between:1,15',
+        ]);
         $booking_id = $req->booking_id;
 
         $booking = Booking::findOrFail($booking_id);
@@ -106,6 +111,12 @@ class MenuController extends Controller
     }
 
     public function editOrder(Request $req){
+        $req->validate([
+            'booking_id' => 'required',
+            'menu_id' => 'required',
+            'old_menu_id' => 'required',
+            'quantity' => 'required | integer | between:1,15',
+        ]);
         $booking_id = $req->booking_id;
 
         $booking = Booking::findOrFail($booking_id);
@@ -113,6 +124,7 @@ class MenuController extends Controller
         $menu_id = $req->menu_id;
         $quantity = $req->quantity;
         $booking->getMenu()->detach([['menu_id' => $old_menu_id]]);
+        $booking->getMenu()->detach([['menu_id' => $menu_id]]);
         $booking->getMenu()->attach([['menu_id'=>$menu_id,'quantity'=>$quantity]]);
 
         $customer_name = Booking::find($booking_id)->getUser->name;
