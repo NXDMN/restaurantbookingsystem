@@ -24,7 +24,6 @@
                         <tbody>
                         @php ($i = 1)
                         @foreach($booking_menu as $booking)
-                            @can('view', $booking)
                             <tr>
                                 @foreach($menulist as $menu)
                                     @if($menu['id'] == $booking->pivot->menu_id)
@@ -33,23 +32,18 @@
                                         <td>{{$booking->pivot->quantity}}</td>
                                         <td>
                                             <div class="btn-group" role="group" aria-label="actions" >
-                                                    @can('update', $menu)
                                                     <a class="btn btn-warning btn-sm" href="/menu/editOrder/{{$selected_booking['id']}}/{{$booking['id']}}" role="button">Edit</a>
-                                                    @endcan
                                                     
-                                                    @can('delete', $booking)
                                                     <form method="post" action="/menu/destroyOrder/{{$selected_booking['id']}}/{{$booking['id']}}">
                                                         @csrf
                                                         @method('delete')
                                                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                                                     </form>
-                                                    @endcan
                                             </div>
                                         </td>
                                     @endif
                                 @endforeach
                             </tr>
-                            @endcan
                         @endforeach
                         </tbody>
                     </table>
