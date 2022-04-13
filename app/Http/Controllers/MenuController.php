@@ -64,6 +64,14 @@ class MenuController extends Controller
         return view('menu.showOrder', ['selected_booking'=>$selected_booking, 'menulist'=>$menulist,'booking_menu'=>$booking_menu,'is_future_date'=>$is_future_date]);
     }
 
+    public function showCustomerOrder($id){
+        $selected_booking = Booking::findOrFail($id);
+        $booking_menu = $selected_booking->getMenu()->orderBy('booking_id')->get();
+        $customer_name = $selected_booking->getUser->name;
+        $menulist = Menu::all(); 
+        return view('menu.showCustomerOrder', ['customer_name'=>$customer_name,'menulist'=>$menulist, 'selected_booking'=>$selected_booking, 'booking_menu'=>$booking_menu]);
+    }
+
     public function showCreateOrder($id){
         $selected_booking = Booking::findOrFail($id);
         $menulist = Menu::all(); 
