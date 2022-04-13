@@ -50,7 +50,7 @@ class Handler extends ExceptionHandler
             return redirect()->guest('/login/admin');
         }
         if ($request->is('customer') || $request->is('customer/*')) {
-            return redirect()->guest('/login/customer');
+            return redirect()->guest('/login');
         }
         return redirect()->guest(route('login'));
     }
