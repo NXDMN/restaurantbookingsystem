@@ -56,6 +56,9 @@ class MenuController extends Controller
 
     public function showOrder($id){
         $selected_booking = Booking::findOrFail($id);
+        $date_now = date("Y-m-d");
+        // $is_future_date = $date_now < $selected_booking->booking_date;
+        // echo $is_future_date;
         $menulist = Menu::all(); 
         $booking_menu = $selected_booking->getMenu()->orderBy('booking_id')->get();
             
@@ -71,6 +74,9 @@ class MenuController extends Controller
     }
 
     public function createOrder(Request $req){
+        $req->validate([
+            'quantity' => 'required | integer | gt:0',
+        ]);
         $booking_id = $req->booking_id;
 
         $booking = Booking::findOrFail($booking_id);
@@ -106,6 +112,9 @@ class MenuController extends Controller
     }
 
     public function editOrder(Request $req){
+        $req->validate([
+            'quantity' => 'required | integer | gt:0',
+        ]);
         $booking_id = $req->booking_id;
 
         $booking = Booking::findOrFail($booking_id);
